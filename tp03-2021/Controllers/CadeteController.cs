@@ -11,6 +11,7 @@ namespace tp03_2021.Controllers
     public class CadeteController : Controller
     {
         private readonly List<Cadete> _listaCadetes;
+        static int id = 0;
 
         public CadeteController(List<Cadete> listaCadetes)
         {
@@ -42,6 +43,7 @@ namespace tp03_2021.Controllers
         {
             try
             {
+                cadete.Id = id++;
                 _listaCadetes.Add(cadete);
                 return View("../Home/Index");
             }
