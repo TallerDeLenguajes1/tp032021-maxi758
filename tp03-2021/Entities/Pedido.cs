@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace tpnro3_maxi758
+namespace tp03_2021.Entities
 {
     public enum Estado { Recibido = 0, Realizandose, Entregado, Desconocido};
-    class Pedido
+    public class Pedido
     {   
         public int Id { get; set; }
-        Cliente Cliente { get; set; }
-        String Observaciones { get; set; }
-        Estado Estado { get; set; }
+        public Cliente Cliente { get; set; }
+        public string Observaciones { get; set; }
+        public Estado Estado { get; set; }
 
         public Pedido()
         {

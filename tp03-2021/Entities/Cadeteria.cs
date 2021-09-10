@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace tpnro3_maxi758
+namespace tp03_2021.Entities
 {
-    class Cadeteria
+    public class Cadeteria
     {
-        public List<Cadete> ListadoDeCadetes { get; set; };
+        public List<Cadete> ListadoDeCadetes { get; set; }
         public string Nombre { get; set; }
         public Cadeteria()
         {

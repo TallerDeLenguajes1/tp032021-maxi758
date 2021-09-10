@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace tpnro3_maxi758
+namespace tp03_2021.Entities
 {
-    class Cadete
+    public class Cadete
     {
         static int identificador = 0;
 
