@@ -7,16 +7,17 @@ namespace tp03_2021.Entities
     public class Cadeteria
     {
         public List<Cadete> ListadoDeCadetes { get; set; }
-        public string Nombre { get; set; }
+        public List<Pedido> ListadoDePedidos { get; set; }
         public Cadeteria()
         {
-
+            ListadoDeCadetes = new List<Cadete>();
+            ListadoDePedidos = new List<Pedido>();
         }
 
-        public Cadeteria(List<Cadete> listadoDeCadetes, string nombre)
+        public Cadeteria(List<Cadete> listadoDeCadetes, List<Pedido> listadoDePedidos)
         {
             ListadoDeCadetes = listadoDeCadetes;
-            Nombre = nombre;
+            ListadoDePedidos = listadoDePedidos;
         }
     }
 }

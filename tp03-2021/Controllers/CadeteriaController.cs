@@ -8,44 +8,42 @@ using tp03_2021.Entities;
 
 namespace tp03_2021.Controllers
 {
-    public class CadeteController : Controller
+    
+    public class CadeteriaController : Controller
     {
         private readonly DBTemporal _DB;
-        static int id = 0;
 
-        public CadeteController(DBTemporal DB)
+        public CadeteriaController(DBTemporal dB)
         {
-            _DB = DB;
+            _DB = dB;
         }
 
-        // GET: CadeteController
+        // GET: CadeteriaController
         public ActionResult Index()
         {
-            return View(_DB.Cadeteria.ListadoDeCadetes);
+            return View(_DB.Cadeteria);
         }
 
-        // GET: CadeteController/Details/5
+        // GET: CadeteriaController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        [Route("AltaCadetes")]
-        public ActionResult AltaCadete()
+        // GET: CadeteriaController/Create
+        public ActionResult Create()
         {
             return View();
         }
 
-        // POST: CadeteController/Create
+        // POST: CadeteriaController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CrearCadete(Cadete cadete)
+        public ActionResult Create(IFormCollection collection)
         {
             try
             {
-                cadete.Id = id++;
-                _DB.Cadeteria.ListadoDeCadetes.Add(cadete);
-                return View("../Home/Index");
+                return RedirectToAction(nameof(Index));
             }
             catch
             {
@@ -53,13 +51,13 @@ namespace tp03_2021.Controllers
             }
         }
 
-        // GET: CadeteController/Edit/5
+        // GET: CadeteriaController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: CadeteController/Edit/5
+        // POST: CadeteriaController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -74,13 +72,13 @@ namespace tp03_2021.Controllers
             }
         }
 
-        // GET: CadeteController/Delete/5
+        // GET: CadeteriaController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: CadeteController/Delete/5
+        // POST: CadeteriaController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

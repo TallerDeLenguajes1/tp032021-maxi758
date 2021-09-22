@@ -6,8 +6,6 @@ namespace tp03_2021.Entities
 {
     public class Cadete
     {
-        static int identificador = 0;
-
         public int Id { get; set; }      
         public string Nombre { get; set; }
         public string Direccion { get; set; }

@@ -14,7 +14,7 @@ namespace tp03_2021
 {
     public class Startup
     {
-        static List<Cadete> ListaCadetes = new List<Cadete>();
+        static DBTemporal DB = new DBTemporal();
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -26,7 +26,7 @@ namespace tp03_2021
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
-            services.AddSingleton(ListaCadetes);
+            services.AddSingleton(DB);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
