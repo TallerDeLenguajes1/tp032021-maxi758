@@ -21,7 +21,7 @@ namespace tp03_2021.Controllers
         // GET: CadeteController
         public ActionResult Index()
         {
-            return View(_DB.Cadeteria.ListadoDeCadetes);
+            return View(_DB.Cadeteria.Cadetes);
         }
 
         // GET: CadeteController/Details/5
@@ -43,8 +43,9 @@ namespace tp03_2021.Controllers
         {
             try
             {
-                cadete.Id = id++;
-                _DB.Cadeteria.ListadoDeCadetes.Add(cadete);
+                cadete.Id = _DB.GetMaxId()+1;
+                _DB.Cadeteria.Cadetes.Add(cadete);
+                _DB.SaveCadete(_DB.Cadeteria.Cadetes);
                 return View("../Home/Index");
             }
             catch
@@ -56,16 +57,26 @@ namespace tp03_2021.Controllers
         // GET: CadeteController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var cadeteToEdit = _DB.Cadeteria.Cadetes.Find(x => x.Id == id);
+            return View(cadeteToEdit);
         }
 
         // POST: CadeteController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult EditCadete(Cadete cadete)
         {
+            if (cadete == null)
+            {
+                return View("Index");
+            }
             try
             {
+                var cadeteToEdit = _DB.Cadeteria.Cadetes.Find(x => x.Id == cadete.Id);
+                cadeteToEdit.Nombre = cadete.Nombre;
+                cadeteToEdit.Direccion = cadete.Direccion;
+                cadeteToEdit.Telefono = cadete.Telefono;
+                _DB.SaveCadete(_DB.Cadeteria.Cadetes);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -75,24 +86,20 @@ namespace tp03_2021.Controllers
         }
 
         // GET: CadeteController/Delete/5
-        public ActionResult Delete(int id)
+        [HttpPost]
+        public void Delete(int id)
         {
-            return View();
+            var list = _DB.GetAllCadetes();
+            foreach (var item in list)
+            {
+                if (item.Id == id)
+                {
+                    _DB.Cadeteria.Cadetes.RemoveAll(x => x.Id == id);
+                    _DB.DeleteCadete();
+                }
+            }
         }
 
-        // POST: CadeteController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        
     }
 }

@@ -1,7 +1,7 @@
 ﻿@model tp03_2021.Entities.Cadete
 
 <div class="container-sm w-50 bg-light d-flex justify-content-center">
-    <form asp-action="CrearCadete" method="post" class="row g-3 p-3" role="form">
+    <form asp-action="EditCadete" method="post" class="row g-3 p-3" role="form">
 
         <div class="form-group d-flex justify-content-center">
 
@@ -27,16 +27,16 @@
             </div>
         </div>
         @*<div class="form-group d-flex justify-content-center">
-            <label asp-for="ListadoPedidos" class="col-sm-3 col-form-label"></label>
-            <div class="col-sm-3">
-                <input asp-for="ListadoPedidos" type="" class="form-control" value="Pedidos"/>
-            </div>
-        </div>*@
+                <label asp-for="ListadoPedidos" class="col-sm-3 col-form-label"></label>
+                <div class="col-sm-3">
+                    <input asp-for="ListadoPedidos" type="" class="form-control" value="Pedidos"/>
+                </div>
+            </div>*@
         <div class="col-12 d-flex justify-content-center">
             <input type="submit" class="btn-success" value="Enviar" />
         </div>
     </form>
 </div>
-    <div>
-        <a asp-controller="Cadete" asp-action="Index">Back to List</a>
-    </div>
+<div>
+    <a asp-controller="Cadete" asp-action="Index">Back to List</a>
+</div>

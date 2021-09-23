@@ -24,10 +24,23 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Cadete" asp-action="AltaCadete">Alta de Cadetes</a>
-                        </li>
+                        
+                        <li>
+                            <div class="btn-group">
+                                <button type="button" class="btn text-decoration-none dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Cadetes
+                                </button>
+                                <div class="dropdown-menu text-left">
+                                                                          
+                                    <a class="nav-link dropdown-item text-dark" asp-area="" asp-controller="Cadete" asp-action="Index">Cadetes</a>
+                                                                              
+                                    <a class="nav-link dropdown-item" asp-area="" asp-controller="Cadete" asp-action="AltaCadete">Alta de Cadetes</a>
+                                                                                
+                                </div>
+                            </div>
+                        </li>  
                     </ul>
+                    
                 </div>
             </div>
         </nav>
