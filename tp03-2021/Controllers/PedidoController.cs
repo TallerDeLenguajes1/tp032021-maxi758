@@ -4,15 +4,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using tp03_2021.Entities;
 
 namespace tp03_2021.Controllers
 {
     public class PedidoController : Controller
     {
+        private readonly DBTemporal _DB;
+
+        public PedidoController(DBTemporal dB)
+        {
+            _DB = dB;
+        }
+
         // GET: PedidoController
         public ActionResult Index()
         {
-            return View();
+            return View(_DB.Cadeteria.Pedidos);
         }
 
         // GET: PedidoController/Details/5
@@ -22,23 +30,33 @@ namespace tp03_2021.Controllers
         }
 
         // GET: PedidoController/Create
-        public ActionResult Create()
+        public ActionResult AltaPedido()
         {
-            return View();
+            return View(_DB.Cadeteria.Cadetes);
         }
 
         // POST: PedidoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult CrearPedido(string observaciones, Estado estado, int CadeteId)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                var cadeteAsignado = _DB.Cadeteria.Cadetes.Find(x => x.Id == CadeteId);
+                var pedidoNuevo = new Pedido();
+
+                pedidoNuevo.Id = _DB.GetMaxPedidoId() + 1;
+                pedidoNuevo.Observaciones = observaciones;
+                pedidoNuevo.Estado = estado;
+                _DB.Cadeteria.Pedidos.Add(pedidoNuevo);
+                _DB.SavePedido(_DB.Cadeteria.Pedidos);
+                cadeteAsignado.ListadoPedidos.Add(pedidoNuevo);
+                _DB.SaveCadete(_DB.Cadeteria.Cadetes);
+                return View("../Home/Index");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return View("Index", ex.ToString());
             }
         }
 

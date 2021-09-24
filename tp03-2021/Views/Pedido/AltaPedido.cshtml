@@ -1,8 +1,5 @@
-﻿@model tp03_2021.Entities.Pedido
+﻿@model List<tp03_2021.Entities.Cadete>
 
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
 
 <!DOCTYPE html>
 
@@ -20,37 +17,40 @@
             <form asp-action="CrearPedido" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="Id" class="control-label"></label>
-                    <input asp-for="Id" class="form-control" value="@Model.Id" type="hidden" />
+                    <label for="Id" class="control-label"></label>
+                    <input name="Id" class="form-control"  type="hidden" />
 
                 </div>
-                @*<div class="form-check-inline">
+                <div class="form-check-inline">
                     
                     <div class="form-group">
-                        <label asp-for="Cadete" class="control-label"></label>
-                        @*<input asp-for="Cadete" type="text" class="form-control" value="@Model.Cadete" />
-
-                        <select asp-for="Cadete.Id">
-                            @foreach (var Cadete in Model.listadoDeCadetes)
+                        <label for="Cadete" class="control-label">Seleccione cadete</label>                       
+                        <select for="Cadete" name="CadeteId">
+                            @foreach (var Cadete in Model)
                             {
                                 <option value="@Cadete.Id">@Cadete.Nombre</option>
                             }
                         </select>
                     </div>
-                </div>*@
+                </div>
                 <div class="bg-transparent">
                     <div class="form-group">
-                        <label asp-for="Observaciones" class="control-label"></label>
+                        <label for="Observaciones" class="control-label">Observaciones</label>
                         <div>
-                            <textarea asp-for="Observaciones" rows="10" cols="50" class="text-black-50" placeholder="Observaciones"></textarea>
+                            <textarea name="observaciones" rows="10" cols="50" class="text-black-50" placeholder="Observaciones"></textarea>
                         </div>
 
                     </div>
 
                     <div class="form-group">
-                        <label asp-for="Estado" class="control-label"></label>
-                        <input asp-for="Estado" class="form-control" value="@Model.Estado" />
-                        <span asp-validation-for="Estado" class="text-danger"></span>
+                        <label for="Estado" class="control-label">Estado del pedido</label>
+                        <select name="estado">
+                            <option value="0">Recibido</option>
+                            <option value="1">Realizandose</option>
+                            <option value="2">Entregado</option>
+                            <option value="3">Desconocido</option>
+                        </select>
+                        <span validation-for="Estado" class="text-danger"></span>
                     </div>
                     
 

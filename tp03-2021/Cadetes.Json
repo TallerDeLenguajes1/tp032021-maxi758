@@ -1,1 +1,1 @@
-[{"Id":1,"Nombre":"maxu","Direccion":"sutiaga mb c3","Telefono":"3424242","ListadoPedidos":null}]
+[{"Id":1,"Nombre":"max","Direccion":"sutiaga","Telefono":"3424242","ListadoPedidos":[{"Id":4,"Cliente":null,"Observaciones":"test","Estado":3}]},{"Id":2,"Nombre":"lio Messi","Direccion":"cxfxx 32","Telefono":"10101010","ListadoPedidos":[{"Id":3,"Cliente":null,"Observaciones":"nnnnn","Estado":2}]}]

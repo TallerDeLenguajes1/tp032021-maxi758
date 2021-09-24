@@ -32,7 +32,20 @@ namespace tp03_2021.Entities
                 }
             }
         }
-
+        public void SavePedido(List<Pedido> pedidos)
+        {
+            string path = @"Pedidos.Json";
+            string pedidosJson = JsonSerializer.Serialize(pedidos);
+            using (FileStream pedidosFile = new FileStream(path, FileMode.OpenOrCreate))
+            {
+                using (StreamWriter strReader = new StreamWriter(pedidosFile))
+                {
+                    strReader.Write(pedidosJson);
+                    strReader.Close();
+                    strReader.Dispose();
+                }
+            }
+        }
         public List<Cadete> GetAllCadetes()
         {
             List<Cadete> CadetesJson = new();
@@ -46,6 +59,8 @@ namespace tp03_2021.Entities
                     {
                         string strCadetes = strReader.ReadToEnd();
                         CadetesJson = JsonSerializer.Deserialize<List<Cadete>>(strCadetes);
+                        strReader.Close();
+                        strReader.Dispose();
                     }
                 }
             }
@@ -71,7 +86,7 @@ namespace tp03_2021.Entities
             }
         }
 
-        public int GetMaxId()
+        public int GetMaxCadeteId()
         {
             List<Cadete> CadetesJson = new();
             string path = @"Cadetes.Json";
@@ -91,6 +106,35 @@ namespace tp03_2021.Entities
                                 maxId = item.Id;
                             }
                         }
+                        strReader.Close();
+                        strReader.Dispose();
+                    }
+                }
+            }
+            return maxId;
+        }
+        public int GetMaxPedidoId()
+        {
+            List<Pedido> PedidosJson = new();
+            string path = @"Pedidos.Json";
+            int maxId = 0;
+            if (File.Exists(path))
+            {
+                using (FileStream pedidosFile = new FileStream(path, FileMode.Open))
+                {
+                    using (StreamReader strReader = new StreamReader(pedidosFile))
+                    {
+                        string strPedidos = strReader.ReadToEnd();
+                        PedidosJson = JsonSerializer.Deserialize<List<Pedido>>(strPedidos);
+                        foreach (Pedido item in PedidosJson)
+                        {
+                            if (maxId < item.Id)
+                            {
+                                maxId = item.Id;
+                            }
+                        }
+                        strReader.Close();
+                        strReader.Dispose();
                     }
                 }
             }

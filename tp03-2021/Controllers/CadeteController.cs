@@ -43,7 +43,7 @@ namespace tp03_2021.Controllers
         {
             try
             {
-                cadete.Id = _DB.GetMaxId()+1;
+                cadete.Id = _DB.GetMaxCadeteId()+1;
                 _DB.Cadeteria.Cadetes.Add(cadete);
                 _DB.SaveCadete(_DB.Cadeteria.Cadetes);
                 return View("../Home/Index");

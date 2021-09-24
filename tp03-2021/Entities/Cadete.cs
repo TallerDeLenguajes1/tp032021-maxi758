@@ -10,7 +10,7 @@ namespace tp03_2021.Entities
         public string Nombre { get; set; }
         public string Direccion { get; set; }
         public string Telefono { get; set; }
-        public List<Pedido> ListadoPedidos { get; set; }
+        public List<Pedido> ListadoPedidos { get; set; } = new List<Pedido>();
         public Cadete()
         {
 
