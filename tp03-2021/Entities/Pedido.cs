@@ -14,7 +14,7 @@ namespace tp03_2021.Entities
 
         public Pedido()
         {
-       
+            
         }
 
         public Pedido(int id, Cliente cliente, string observaciones, Estado estado)

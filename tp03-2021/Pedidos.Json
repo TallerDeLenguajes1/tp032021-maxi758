@@ -1,1 +1,1 @@
-[{"Id":1,"Cliente":null,"Observaciones":"lololo","Estado":0},{"Id":2,"Cliente":null,"Observaciones":"por","Estado":3},{"Id":3,"Cliente":null,"Observaciones":"nnnnn","Estado":2},{"Id":4,"Cliente":null,"Observaciones":"test","Estado":3}]
+[{"Id":1,"Cliente":{"Id":0,"Nombre":"andres","Direccion":"fake123","Telefono":"998776"},"Observaciones":"ooooooooooooooooooooooooooooooooooooooooooooooo","Estado":1}]

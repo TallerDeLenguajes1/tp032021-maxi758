@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using tp03_2021.Entities;
+using tp03_2021.ViewModels;
 
 namespace tp03_2021.Controllers
 {
@@ -38,7 +39,8 @@ namespace tp03_2021.Controllers
         // POST: PedidoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CrearPedido(string observaciones, Estado estado, int CadeteId)
+        public ActionResult CrearPedido(string observaciones, Estado estado, int CadeteId,
+             string nombre, string direccion, string telefono)
         {
             try
             {
@@ -48,6 +50,8 @@ namespace tp03_2021.Controllers
                 pedidoNuevo.Id = _DB.GetMaxPedidoId() + 1;
                 pedidoNuevo.Observaciones = observaciones;
                 pedidoNuevo.Estado = estado;
+                pedidoNuevo.Cliente = new Cliente(nombre, direccion, telefono);
+                               
                 _DB.Cadeteria.Pedidos.Add(pedidoNuevo);
                 _DB.SavePedido(_DB.Cadeteria.Pedidos);
                 cadeteAsignado.ListadoPedidos.Add(pedidoNuevo);
@@ -56,23 +60,39 @@ namespace tp03_2021.Controllers
             }
             catch (Exception ex)
             {
-                return View("Index", ex.ToString());
+                return View("Index");
             }
         }
 
         // GET: PedidoController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var pedidoToEdit = _DB.Cadeteria.Pedidos.Find(x => x.Id == id);
+            var pedidoVM = new EditPedidoRequest();
+            pedidoVM.Cadetes = _DB.Cadeteria.Cadetes;
+            pedidoVM.Cliente = pedidoToEdit.Cliente;
+            pedidoVM.Estado = pedidoToEdit.Estado;
+            pedidoVM.Observaciones = pedidoToEdit.Observaciones;
+            return View(pedidoVM);
         }
 
         // POST: PedidoController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult EditPedido(EditPedidoResponse pedidoVM)
         {
+            if (pedidoVM == null)
+            {
+                return View("Index");
+            }
             try
             {
+
+                var pedidoToEdit = _DB.Cadeteria.Pedidos.Find(x => x.Id == pedidoVM.Id);
+                pedidoToEdit.Cliente = pedidoVM.Cliente;
+                pedidoToEdit.Estado = pedidoVM.Estado;
+                pedidoToEdit.Observaciones = pedidoVM.Observaciones;
+                _DB.SavePedido(_DB.Cadeteria.Pedidos);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -81,24 +101,39 @@ namespace tp03_2021.Controllers
             }
         }
 
-        // GET: PedidoController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
+        
         // POST: PedidoController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public void Delete(int id)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                var list = _DB.GetAllPedidos();//pude usar lista en _db
+                foreach (var item in list)
+                {
+                    if (item.Id == id)
+                    {
+                        _DB.Cadeteria.Pedidos.RemoveAll(x => x.Id == id);
+                        foreach (var cadete in _DB.Cadeteria.Cadetes)
+                        {
+                            var elemento = cadete.ListadoPedidos.Find(x => x.Id == id);
+                            if ( elemento != null)
+                            {
+                                cadete.ListadoPedidos.Remove(elemento);
+                            }
+                        }
+                        _DB.DeleteCadete();
+                        _DB.DeletePedido();
+                        RedirectToAction("../Home/Index");
+                       // break;
+                    }
+                }
+                RedirectToAction("../Home/Index");
             }
             catch
             {
-                return View();
+                RedirectToAction("Index");
             }
         }
     }

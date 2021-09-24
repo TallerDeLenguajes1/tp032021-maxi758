@@ -17,6 +17,10 @@ namespace tp03_2021.Entities
             {
                 Cadeteria.Cadetes = GetAllCadetes();
             }
+            if (GetAllPedidos() != null)
+            {
+                Cadeteria.Pedidos = GetAllPedidos();
+            }
         }
         public void SaveCadete(List<Cadete> cadete)
         {
@@ -67,10 +71,35 @@ namespace tp03_2021.Entities
             return CadetesJson;
         }
 
+        public List<Pedido> GetAllPedidos()
+        {
+            List<Pedido> PedidosJson = new();
+            string path = @"Pedidos.Json";
+
+            if (File.Exists(path))
+            {
+                using (FileStream pedidosFile = new FileStream(path, FileMode.OpenOrCreate))
+                {
+                    using (StreamReader strReader = new StreamReader(pedidosFile))
+                    {
+                        string strPedidos = strReader.ReadToEnd();
+                        PedidosJson = JsonSerializer.Deserialize<List<Pedido>>(strPedidos);
+                        strReader.Close();
+                        strReader.Dispose();
+                    }
+                }
+            }
+            return PedidosJson;
+        }
+
         public void DeleteCadete()
         {
             string path = @"Cadetes.Json";
-
+            if (Cadeteria.Cadetes.Count() == 0)
+            {
+                File.Delete(path);
+                return;
+            }
             using (FileStream cadetesFile = new FileStream(path, FileMode.Create))
             {
                 using (StreamWriter strReader = new StreamWriter(cadetesFile))
@@ -79,6 +108,29 @@ namespace tp03_2021.Entities
                     {
                         string CadeteJson = JsonSerializer.Serialize(item);
                         strReader.Write(CadeteJson);
+                    }
+                    strReader.Close();
+                    strReader.Dispose();
+                }
+            }
+        }
+
+        public void DeletePedido()
+        {
+            string path = @"Pedidos.Json";
+            if (Cadeteria.Pedidos.Count()==0)
+            {
+                File.Delete(path);
+                return;
+            }
+            using (FileStream pedidosFile = new FileStream(path, FileMode.Create))
+            {
+                using (StreamWriter strReader = new StreamWriter(pedidosFile))
+                {
+                    foreach (Pedido item in Cadeteria.Pedidos)
+                    {
+                        string PedidoJson = JsonSerializer.Serialize(item);
+                        strReader.Write(PedidoJson);
                     }
                     strReader.Close();
                     strReader.Dispose();

@@ -1,4 +1,4 @@
-﻿@model List<tp03_2021.Entities.Cadete>
+﻿@model tp03_2021.ViewModels.EditPedidoRequest
 
 
 <!DOCTYPE html>
@@ -14,19 +14,19 @@
     <hr />
     <div class="row">
         <div class="col-md-4">
-            <form asp-action="CrearPedido" method="post">
+            <form asp-action="EditPedido" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label for="Id" class="control-label"></label>
-                    <input name="Id" class="form-control"  type="hidden" />
+                    <label asp-for="Id" class="control-label"></label>
+                    <input asp-for="Id" class="form-control" type="hidden" />
 
                 </div>
                 <div class="form-check-inline">
-                    
+
                     <div class="form-group">
-                        <label for="Cadete" class="control-label">Seleccione cadete</label>                       
-                        <select for="Cadete" name="CadeteId">
-                            @foreach (var Cadete in Model)
+                        <label for="Cadete" class="control-label">Seleccione cadete</label>
+                        <select for="Cadete" asp-for="Cadete.Id">
+                            @foreach (var Cadete in Model.Cadetes)
                             {
                                 <option value="@Cadete.Id">@Cadete.Nombre</option>
                             }
@@ -35,37 +35,37 @@
                 </div>
                 <div class="bg-transparent">
                     <div class="form-group">
-                        <label for="Observaciones" class="control-label">Observaciones</label>
+                        <label asp-for="Observaciones" class="control-label">Observaciones</label>
                         <div>
-                            <textarea name="observaciones" rows="10" cols="50" class="text-black-50" placeholder="Observaciones"></textarea>
+                            <textarea asp-for="Observaciones" rows="10" cols="50" class="text-black-50" placeholder="Observaciones"></textarea>
                         </div>
 
                     </div>
 
                     <div class="form-group">
                         <label for="Estado" class="control-label">Estado del pedido</label>
-                        <select name="estado">
+                        <select asp-for="Estado">
                             <option value="0">Recibido</option>
                             <option value="1">Realizandose</option>
                             <option value="2">Entregado</option>
                             <option value="3">Desconocido</option>
                         </select>
-                        <span validation-for="Estado" class="text-danger"></span>
+                        <span asp-validation-for="Estado" class="text-danger"></span>
                     </div>
                     <h3>Cliente</h3>
                     <div class="form-group">
-                        <label for="nombre" class="control-label">Nombre</label>
-                        <input name="nombre" class="form-control" type="text" />
+                        <label asp-for="Cliente.Nombre" class="control-label">Nombre</label>
+                        <input asp-for="Cliente.Nombre" class="form-control" type="text" />
 
                     </div>
                     <div class="form-group">
-                        <label for="direccion" class="control-label">Direccion</label>
-                        <input name="direccion" class="form-control" type="text" />
+                        <label asp-for="Cliente.Direccion" class="control-label">Direccion</label>
+                        <input asp-for="Cliente.Direccion" class="form-control" type="text" />
 
                     </div>
                     <div class="form-group">
-                        <label for="telefono" class="control-label">Telefono</label>
-                        <input name="telefono" class="form-control" type="text" />
+                        <label asp-for="Cliente.Telefono" class="control-label">Telefono</label>
+                        <input asp-for="Cliente.Telefono" class="form-control" type="text" />
 
                     </div>
 
