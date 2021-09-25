@@ -30,7 +30,7 @@ namespace tp03_2021.Entities
             {
                 using (StreamWriter strReader = new StreamWriter(cadetesFile))
                 {
-                    strReader.Write(cadetesJson);
+                    strReader.WriteLine(cadetesJson);
                     strReader.Close();
                     strReader.Dispose();
                 }
@@ -44,7 +44,7 @@ namespace tp03_2021.Entities
             {
                 using (StreamWriter strReader = new StreamWriter(pedidosFile))
                 {
-                    strReader.Write(pedidosJson);
+                    strReader.WriteLine(pedidosJson);
                     strReader.Close();
                     strReader.Dispose();
                 }
@@ -52,7 +52,7 @@ namespace tp03_2021.Entities
         }
         public List<Cadete> GetAllCadetes()
         {
-            List<Cadete> CadetesJson = new();
+            List<Cadete> CadetesJson = null;
             string path = @"Cadetes.Json";
 
             if (File.Exists(path))
@@ -73,7 +73,7 @@ namespace tp03_2021.Entities
 
         public List<Pedido> GetAllPedidos()
         {
-            List<Pedido> PedidosJson = new();
+            List<Pedido> PedidosJson = null;
             string path = @"Pedidos.Json";
 
             if (File.Exists(path))
@@ -107,7 +107,7 @@ namespace tp03_2021.Entities
                     foreach (Cadete item in Cadeteria.Cadetes)
                     {
                         string CadeteJson = JsonSerializer.Serialize(item);
-                        strReader.Write(CadeteJson);
+                        strReader.WriteLine(CadeteJson);
                     }
                     strReader.Close();
                     strReader.Dispose();
@@ -130,7 +130,7 @@ namespace tp03_2021.Entities
                     foreach (Pedido item in Cadeteria.Pedidos)
                     {
                         string PedidoJson = JsonSerializer.Serialize(item);
-                        strReader.Write(PedidoJson);
+                        strReader.WriteLine(PedidoJson);
                     }
                     strReader.Close();
                     strReader.Dispose();

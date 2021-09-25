@@ -1,1 +1,1 @@
-[{"Id":1,"Cliente":{"Id":1,"Nombre":"mou","Direccion":"treb 3443","Telefono":"0099899"},"Observaciones":"po","Estado":0},{"Id":2,"Cliente":{"Id":1,"Nombre":"seras","Direccion":"treb 3443","Telefono":"43534565"},"Observaciones":"io","Estado":2}]
+[{"Id":1,"Cliente":{"Id":1,"Nombre":"mou","Direccion":"treb 3443","Telefono":"0099899"},"Observaciones":"uuu","Estado":2},{"Id":2,"Cliente":{"Id":2,"Nombre":"andy","Direccion":"fake123","Telefono":"43534565"},"Observaciones":"yyyyyyyyyy","Estado":3}]
