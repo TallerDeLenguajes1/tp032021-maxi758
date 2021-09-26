@@ -87,19 +87,13 @@ namespace tp03_2021.Controllers
 
         // GET: CadeteController/Delete/5
         [HttpPost]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
-            var list = _DB.GetAllCadetes();
-            foreach (var item in list)
-            {
-                if (item.Id == id)
-                {
-                    _DB.Cadeteria.Cadetes.RemoveAll(x => x.Id == id);
-                    _DB.DeleteCadete();
-                }
-            }
+            _DB.Cadeteria.Cadetes.RemoveAll(x => x.Id == id);
+            _DB.DeleteCadete();
+            return View("Index", _DB.Cadeteria.Cadetes);
         }
 
-        
+
     }
 }
