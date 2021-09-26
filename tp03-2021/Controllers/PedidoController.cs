@@ -120,7 +120,7 @@ namespace tp03_2021.Controllers
         // POST: PedidoController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
             try
             {
@@ -140,15 +140,15 @@ namespace tp03_2021.Controllers
                         }
                         _DB.DeleteCadete();
                         _DB.DeletePedido();
-                        RedirectToAction("../Home/Index");
+                        return View("Index");
                        // break;
                     }
                 }
-                RedirectToAction("../Home/Index");
+                return RedirectToAction("../Home/Index");
             }
             catch
             {
-                RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
         }
     }
