@@ -31,8 +31,8 @@ namespace tp03_2021.Entities
                 using (StreamWriter strReader = new StreamWriter(cadetesFile))
                 {
                     strReader.WriteLine(cadetesJson);
-                    strReader.Close();
-                    strReader.Dispose();
+                    /*strReader.Close();
+                    strReader.Dispose();*/
                 }
             }
         }
@@ -91,7 +91,7 @@ namespace tp03_2021.Entities
             }
             return PedidosJson;
         }
-
+        
         public void DeleteCadete()
         {
             string path = @"Cadetes.Json";
@@ -100,15 +100,12 @@ namespace tp03_2021.Entities
                 File.Delete(path);
                 return;
             }
+            string CadeteJson = JsonSerializer.Serialize(Cadeteria.Cadetes);
             using (FileStream cadetesFile = new FileStream(path, FileMode.Create))
             {
                 using (StreamWriter strReader = new StreamWriter(cadetesFile))
                 {
-                    foreach (Cadete item in Cadeteria.Cadetes)
-                    {
-                        string CadeteJson = JsonSerializer.Serialize(item);
-                        strReader.WriteLine(CadeteJson);
-                    }
+                    strReader.WriteLine(CadeteJson);
                     strReader.Close();
                     strReader.Dispose();
                 }
@@ -123,21 +120,18 @@ namespace tp03_2021.Entities
                 File.Delete(path);
                 return;
             }
+            string PedidoJson = JsonSerializer.Serialize(Cadeteria.Cadetes);
             using (FileStream pedidosFile = new FileStream(path, FileMode.Create))
             {
                 using (StreamWriter strReader = new StreamWriter(pedidosFile))
                 {
-                    foreach (Pedido item in Cadeteria.Pedidos)
-                    {
-                        string PedidoJson = JsonSerializer.Serialize(item);
-                        strReader.WriteLine(PedidoJson);
-                    }
+                    strReader.WriteLine(PedidoJson);                   
                     strReader.Close();
                     strReader.Dispose();
                 }
             }
         }
-
+        
         public int GetMaxCadeteId()
         {
             List<Cadete> CadetesJson = new();
