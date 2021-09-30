@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using tp03_2021.Entities;
+using tp03_2021.Models;
 using tp03_2021.ViewModels;
 
 namespace tp03_2021.Controllers
@@ -140,15 +141,16 @@ namespace tp03_2021.Controllers
                         }
                         _DB.DeleteCadete();
                         _DB.DeletePedido();
-                        return View("Index");
+                        return View("Index", _DB.GetAllPedidos());
                        // break;
                     }
                 }
                 return RedirectToAction("../Home/Index");
             }
-            catch
+            catch(Exception ex)
             {
-                return RedirectToAction("Index");
+                var error = new ErrorViewModel();
+                return View("Error", error);
             }
         }
     }

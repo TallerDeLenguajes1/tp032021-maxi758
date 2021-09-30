@@ -9,11 +9,15 @@ namespace tp03_2021.Entities
 {
     public class DBTemporal
     {
+        string pathCadetes = "";
+        string pathPedidos = "";
         public Cadeteria Cadeteria { get; set; }
         public DBTemporal()
         {
+            pathCadetes = @"Cadetes.Json";
+            pathPedidos = @"Pedidos.Json";
             Cadeteria = new Cadeteria();
-            if (GetAllCadetes()!=null)
+            if (GetAllCadetes() != null)
             {
                 Cadeteria.Cadetes = GetAllCadetes();
             }
@@ -24,23 +28,21 @@ namespace tp03_2021.Entities
         }
         public void SaveCadete(List<Cadete> cadete)
         {
-            string path = @"Cadetes.Json";
             string cadetesJson = JsonSerializer.Serialize(cadete);
-            using (FileStream cadetesFile = new FileStream(path, FileMode.OpenOrCreate))
+            using (FileStream cadetesFile = new FileStream(pathCadetes, FileMode.Create))
             {
                 using (StreamWriter strReader = new StreamWriter(cadetesFile))
                 {
                     strReader.WriteLine(cadetesJson);
-                    /*strReader.Close();
-                    strReader.Dispose();*/
+                    strReader.Close();
+                    strReader.Dispose();
                 }
             }
         }
         public void SavePedido(List<Pedido> pedidos)
         {
-            string path = @"Pedidos.Json";
             string pedidosJson = JsonSerializer.Serialize(pedidos);
-            using (FileStream pedidosFile = new FileStream(path, FileMode.OpenOrCreate))
+            using (FileStream pedidosFile = new FileStream(pathPedidos, FileMode.Create))
             {
                 using (StreamWriter strReader = new StreamWriter(pedidosFile))
                 {
@@ -53,11 +55,10 @@ namespace tp03_2021.Entities
         public List<Cadete> GetAllCadetes()
         {
             List<Cadete> CadetesJson = null;
-            string path = @"Cadetes.Json";
 
-            if (File.Exists(path))
+            if (File.Exists(pathCadetes))
             {
-                using (FileStream cadetesFile = new FileStream(path, FileMode.OpenOrCreate))
+                using (FileStream cadetesFile = new FileStream(pathCadetes, FileMode.Open))
                 {
                     using (StreamReader strReader = new StreamReader(cadetesFile))
                     {
@@ -74,11 +75,10 @@ namespace tp03_2021.Entities
         public List<Pedido> GetAllPedidos()
         {
             List<Pedido> PedidosJson = null;
-            string path = @"Pedidos.Json";
 
-            if (File.Exists(path))
+            if (File.Exists(pathPedidos))
             {
-                using (FileStream pedidosFile = new FileStream(path, FileMode.OpenOrCreate))
+                using (FileStream pedidosFile = new FileStream(pathPedidos, FileMode.Open))
                 {
                     using (StreamReader strReader = new StreamReader(pedidosFile))
                     {
@@ -91,97 +91,52 @@ namespace tp03_2021.Entities
             }
             return PedidosJson;
         }
-        
-        public void DeleteCadete()
+
+
+        public void DeleteCadete()//refactorización de deleteCadete
         {
-            string path = @"Cadetes.Json";
-            if (Cadeteria.Cadetes.Count() == 0)
+            if (!GetAllCadetes().Any()) //revisar si es el mejor approach, de todas formas no se ejecuta
             {
-                File.Delete(path);
+                File.Delete(pathCadetes);
                 return;
             }
-            string CadeteJson = JsonSerializer.Serialize(Cadeteria.Cadetes);
-            using (FileStream cadetesFile = new FileStream(path, FileMode.Create))
-            {
-                using (StreamWriter strReader = new StreamWriter(cadetesFile))
-                {
-                    strReader.WriteLine(CadeteJson);
-                    strReader.Close();
-                    strReader.Dispose();
-                }
-            }
+            SaveCadete(Cadeteria.Cadetes);
         }
 
         public void DeletePedido()
         {
-            string path = @"Pedidos.Json";
-            if (Cadeteria.Pedidos.Count()==0)
+            if (!GetAllPedidos().Any())
             {
-                File.Delete(path);
+                File.Delete(pathPedidos);
                 return;
             }
-            string PedidoJson = JsonSerializer.Serialize(Cadeteria.Cadetes);
-            using (FileStream pedidosFile = new FileStream(path, FileMode.Create))
-            {
-                using (StreamWriter strReader = new StreamWriter(pedidosFile))
-                {
-                    strReader.WriteLine(PedidoJson);                   
-                    strReader.Close();
-                    strReader.Dispose();
-                }
-            }
+            SavePedido(Cadeteria.Pedidos);
         }
-        
+
         public int GetMaxCadeteId()
         {
-            List<Cadete> CadetesJson = new();
-            string path = @"Cadetes.Json";
             int maxId = 0;
-            if (File.Exists(path))
+            if (GetAllCadetes() == null) return 0;
+            var listadoCadetes = GetAllCadetes();
+            foreach (Cadete item in listadoCadetes)
             {
-                using (FileStream cadetesFile = new FileStream(path, FileMode.Open))
+                if (maxId < item.Id)
                 {
-                    using (StreamReader strReader = new StreamReader(cadetesFile))
-                    {
-                        string strCadetes = strReader.ReadToEnd();
-                        CadetesJson = JsonSerializer.Deserialize<List<Cadete>>(strCadetes);
-                        foreach (Cadete item in CadetesJson)
-                        {
-                            if (maxId<item.Id)
-                            {
-                                maxId = item.Id;
-                            }
-                        }
-                        strReader.Close();
-                        strReader.Dispose();
-                    }
+                    maxId = item.Id;
                 }
-            }
+            }           
             return maxId;
         }
         public int GetMaxPedidoId()
-        {
-            List<Pedido> PedidosJson = new();
-            string path = @"Pedidos.Json";
+        {   
             int maxId = 0;
-            if (File.Exists(path))
+            if (GetAllPedidos() == null) return 0;
+            var listadoPedidos = GetAllPedidos();
+            foreach (Pedido item in listadoPedidos)
             {
-                using (FileStream pedidosFile = new FileStream(path, FileMode.Open))
+                if (maxId < item.Id)
                 {
-                    using (StreamReader strReader = new StreamReader(pedidosFile))
-                    {
-                        string strPedidos = strReader.ReadToEnd();
-                        PedidosJson = JsonSerializer.Deserialize<List<Pedido>>(strPedidos);
-                        foreach (Pedido item in PedidosJson)
-                        {
-                            if (maxId < item.Id)
-                            {
-                                maxId = item.Id;
-                            }
-                        }
-                        strReader.Close();
-                        strReader.Dispose();
-                    }
+                    maxId = item.Id;
                 }
             }
             return maxId;

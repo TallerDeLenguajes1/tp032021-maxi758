@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using tp03_2021.Entities;
+using tp03_2021.Models;
 
 namespace tp03_2021.Controllers
 {
@@ -46,11 +47,12 @@ namespace tp03_2021.Controllers
                 cadete.Id = _DB.GetMaxCadeteId()+1;
                 _DB.Cadeteria.Cadetes.Add(cadete);
                 _DB.SaveCadete(_DB.Cadeteria.Cadetes);
-                return View("../Home/Index");
+                return RedirectToAction("AltaCadete");
             }
-            catch
+            catch(Exception ex)
             {
-                return View();
+                var error = new ErrorViewModel();
+                return View("Error", error);
             }
         }
 
@@ -91,7 +93,7 @@ namespace tp03_2021.Controllers
         {
             _DB.Cadeteria.Cadetes.RemoveAll(x => x.Id == id);
             _DB.DeleteCadete();
-            return View("Index", _DB.Cadeteria.Cadetes);
+            return View("Index", _DB.GetAllCadetes());
         }
 
 
