@@ -92,7 +92,7 @@ namespace tp03_2021.Controllers
         public IActionResult Delete(int id)
         {
             _DB.Cadeteria.Cadetes.RemoveAll(x => x.Id == id);
-            _DB.DeleteCadete();
+            _DB.SaveCadete();
             return View("Index", _DB.GetAllCadetes());
         }
 

@@ -124,28 +124,19 @@ namespace tp03_2021.Controllers
         public IActionResult Delete(int id)
         {
             try
-            {
-                var list = _DB.GetAllPedidos();//pude usar lista en _db
-                foreach (var item in list)
+            {               
+                _DB.Cadeteria.Pedidos.RemoveAll(x => x.Id == id);
+                _DB.DeletePedido();
+                foreach (var cadete in _DB.Cadeteria.Cadetes)
                 {
-                    if (item.Id == id)
+                    var elemento = cadete.ListadoPedidos.Find(x => x.Id == id);
+                    if ( elemento != null)
                     {
-                        _DB.Cadeteria.Pedidos.RemoveAll(x => x.Id == id);
-                        foreach (var cadete in _DB.Cadeteria.Cadetes)
-                        {
-                            var elemento = cadete.ListadoPedidos.Find(x => x.Id == id);
-                            if ( elemento != null)
-                            {
-                                cadete.ListadoPedidos.Remove(elemento);
-                            }
-                        }
-                        _DB.DeleteCadete();
-                        _DB.DeletePedido();
-                        return View("Index", _DB.GetAllPedidos());
-                       // break;
+                        cadete.ListadoPedidos.Remove(elemento);
                     }
                 }
-                return RedirectToAction("../Home/Index");
+                _DB.SaveCadete();                
+                return View("Index", _DB.GetAllPedidos());                      
             }
             catch(Exception ex)
             {

@@ -93,7 +93,7 @@ namespace tp03_2021.Entities
         }
 
 
-        public void DeleteCadete()//refactorización de deleteCadete
+        public void SaveCadete()//refactorización de deleteCadete
         {
             if (!GetAllCadetes().Any()) //revisar si es el mejor approach, de todas formas no se ejecuta
             {
