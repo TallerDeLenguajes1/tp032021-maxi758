@@ -13,7 +13,6 @@ namespace tp03_2021.Controllers
     public class PedidoController : Controller
     {
         private readonly DBTemporal _DB;
-        static int id = 0;
 
         public PedidoController(DBTemporal dB)
         {
@@ -89,26 +88,19 @@ namespace tp03_2021.Controllers
             }
             try
             {
-                var pedidoToEdit = _DB.Cadeteria.Pedidos.Find(x => x.Id == pedidoVM.Id);
+                var pedidoToEdit = _DB.GetPedidoById(pedidoVM.Id);
                 pedidoToEdit.Cliente = pedidoVM.Cliente;
                 pedidoToEdit.Estado = pedidoVM.Estado;
                 pedidoToEdit.Observaciones = pedidoVM.Observaciones;
-                _DB.SavePedido(_DB.Cadeteria.Pedidos);
-                var cadeteAsignado = _DB.Cadeteria.Cadetes.Find(x => x.Id == pedidoVM.Cadete.Id);
+                _DB.SavePedido(_DB.GetAllPedidos());
+                var cadeteAsignado = _DB.GetCadeteById(pedidoVM.Cadete.Id);
                 if (cadeteAsignado.ListadoPedidos.Contains(pedidoToEdit))
                 {
                     return RedirectToAction(nameof(Index));
                 }
-                foreach (var cadete in _DB.Cadeteria.Cadetes)
-                {
-                    var elemento = cadete.ListadoPedidos.Find(x => x.Id == pedidoVM.Id);
-                    if (elemento != null)
-                    {
-                        cadete.ListadoPedidos.Remove(elemento);
-                    }
-                }
+                _DB.DeletePedidoEnCadete(pedidoVM.Id);
                 cadeteAsignado.ListadoPedidos.Add(pedidoToEdit);
-                _DB.SaveCadete(_DB.Cadeteria.Cadetes);
+                _DB.SaveCadete(_DB.GetAllCadetes());
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -124,18 +116,9 @@ namespace tp03_2021.Controllers
         public IActionResult Delete(int id)
         {
             try
-            {               
-                _DB.Cadeteria.Pedidos.RemoveAll(x => x.Id == id);
-                _DB.DeletePedido();
-                foreach (var cadete in _DB.Cadeteria.Cadetes)
-                {
-                    var elemento = cadete.ListadoPedidos.Find(x => x.Id == id);
-                    if ( elemento != null)
-                    {
-                        cadete.ListadoPedidos.Remove(elemento);
-                    }
-                }
-                _DB.SaveCadete();                
+            {                              
+                _DB.DeletePedido(id);
+                _DB.SaveCadete(_DB.GetAllCadetes());                
                 return View("Index", _DB.GetAllPedidos());                      
             }
             catch(Exception ex)

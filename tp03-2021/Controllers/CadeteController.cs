@@ -12,7 +12,6 @@ namespace tp03_2021.Controllers
     public class CadeteController : Controller
     {
         private readonly DBTemporal _DB;
-        static int id = 0;
 
         public CadeteController(DBTemporal DB)
         {
@@ -91,8 +90,7 @@ namespace tp03_2021.Controllers
         [HttpPost]
         public IActionResult Delete(int id)
         {
-            _DB.Cadeteria.Cadetes.RemoveAll(x => x.Id == id);
-            _DB.SaveCadete();
+            _DB.DeleteCadete(id);
             return View("Index", _DB.GetAllCadetes());
         }
 

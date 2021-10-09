@@ -52,6 +52,28 @@ namespace tp03_2021.Entities
                 }
             }
         }
+        public Cadete GetCadeteById(int id)
+        {
+            if (GetAllCadetes() == null)
+            {
+                return null;
+            }
+            else
+            {
+                return GetAllCadetes().Find(x => x.Id.Equals(id));
+            }
+        }
+        public Pedido GetPedidoById(int id)
+        {
+            if (GetAllPedidos() == null)
+            {
+                return null;
+            }
+            else
+            {
+                return GetAllPedidos().Find(x => x.Id.Equals(id));
+            }
+        }
         public List<Cadete> GetAllCadetes()
         {
             List<Cadete> CadetesJson = null;
@@ -91,25 +113,28 @@ namespace tp03_2021.Entities
             }
             return PedidosJson;
         }
-
-
-        public void SaveCadete()//refactorización de deleteCadete
+        public void DeletePedidoEnCadete(int id)
         {
-            if (!GetAllCadetes().Any()) //revisar si es el mejor approach, de todas formas no se ejecuta
+            foreach (var cadete in Cadeteria.Cadetes)
             {
-                File.Delete(pathCadetes);
-                return;
+                var elemento = cadete.ListadoPedidos.Find(x => x.Id == id);
+                if (elemento != null)
+                {
+                    cadete.ListadoPedidos.Remove(elemento);
+                }
             }
+        }
+
+        public void DeleteCadete(int id)//refactorización de deleteCadete
+        {
+            Cadeteria.Cadetes.RemoveAll(x => x.Id == id);
             SaveCadete(Cadeteria.Cadetes);
         }
 
-        public void DeletePedido()
+        public void DeletePedido(int id)
         {
-            if (!GetAllPedidos().Any())
-            {
-                File.Delete(pathPedidos);
-                return;
-            }
+            Cadeteria.Pedidos.RemoveAll(x => x.Id == id);
+            DeletePedidoEnCadete(id);
             SavePedido(Cadeteria.Pedidos);
         }
 
