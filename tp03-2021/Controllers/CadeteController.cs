@@ -45,7 +45,7 @@ namespace tp03_2021.Controllers
             {
                 cadete.Id = _DB.GetMaxCadeteId()+1;
                 _DB.Cadeteria.Cadetes.Add(cadete);
-                _DB.SaveCadete(_DB.Cadeteria.Cadetes);
+                _DB.SaveCadete();
                 return RedirectToAction("AltaCadete");
             }
             catch(Exception ex)
@@ -77,7 +77,7 @@ namespace tp03_2021.Controllers
                 cadeteToEdit.Nombre = cadete.Nombre;
                 cadeteToEdit.Direccion = cadete.Direccion;
                 cadeteToEdit.Telefono = cadete.Telefono;
-                _DB.SaveCadete(_DB.Cadeteria.Cadetes);
+                _DB.SaveCadete();
                 return RedirectToAction(nameof(Index));
             }
             catch

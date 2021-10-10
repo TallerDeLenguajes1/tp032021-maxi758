@@ -26,9 +26,10 @@ namespace tp03_2021.Entities
                 Cadeteria.Pedidos = GetAllPedidos();
             }
         }
-        public void SaveCadete(List<Cadete> cadete)
+        public void SaveCadete()
         {
-            string cadetesJson = JsonSerializer.Serialize(cadete);
+            
+            string cadetesJson = JsonSerializer.Serialize(Cadeteria.Cadetes);
             using (FileStream cadetesFile = new FileStream(pathCadetes, FileMode.Create))
             {
                 using (StreamWriter strReader = new StreamWriter(cadetesFile))
@@ -52,28 +53,7 @@ namespace tp03_2021.Entities
                 }
             }
         }
-        public Cadete GetCadeteById(int id)
-        {
-            if (GetAllCadetes() == null)
-            {
-                return null;
-            }
-            else
-            {
-                return GetAllCadetes().Find(x => x.Id.Equals(id));
-            }
-        }
-        public Pedido GetPedidoById(int id)
-        {
-            if (GetAllPedidos() == null)
-            {
-                return null;
-            }
-            else
-            {
-                return GetAllPedidos().Find(x => x.Id.Equals(id));
-            }
-        }
+        
         public List<Cadete> GetAllCadetes()
         {
             List<Cadete> CadetesJson = null;
@@ -113,6 +93,28 @@ namespace tp03_2021.Entities
             }
             return PedidosJson;
         }
+        public Cadete GetCadeteById(int id)
+        {
+            if (Cadeteria.Cadetes == null)
+            {
+                return null;
+            }
+            else
+            {
+                return Cadeteria.Cadetes.Find(x => x.Id == id);
+            }
+        }
+        public Pedido GetPedidoById(int id)
+        {
+            if (Cadeteria.Pedidos == null)
+            {
+                return null;
+            }
+            else
+            {
+                return Cadeteria.Pedidos.Find(x => x.Id == id);
+            }
+        }
         public void DeletePedidoEnCadete(int id)
         {
             foreach (var cadete in Cadeteria.Cadetes)
@@ -128,7 +130,7 @@ namespace tp03_2021.Entities
         public void DeleteCadete(int id)//refactorización de deleteCadete
         {
             Cadeteria.Cadetes.RemoveAll(x => x.Id == id);
-            SaveCadete(Cadeteria.Cadetes);
+            SaveCadete();
         }
 
         public void DeletePedido(int id)

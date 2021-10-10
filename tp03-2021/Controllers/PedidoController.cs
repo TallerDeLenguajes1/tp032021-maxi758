@@ -45,7 +45,7 @@ namespace tp03_2021.Controllers
         {
             try
             {
-                var cadeteAsignado = _DB.Cadeteria.Cadetes.Find(x => x.Id == CadeteId);
+                var cadeteAsignado = _DB.GetCadeteById(CadeteId);
                 var pedidoNuevo = new Pedido();
 
                 pedidoNuevo.Id = _DB.GetMaxPedidoId() + 1;
@@ -56,7 +56,7 @@ namespace tp03_2021.Controllers
                 _DB.Cadeteria.Pedidos.Add(pedidoNuevo);
                 _DB.SavePedido(_DB.Cadeteria.Pedidos);
                 cadeteAsignado.ListadoPedidos.Add(pedidoNuevo);
-                _DB.SaveCadete(_DB.Cadeteria.Cadetes);
+                _DB.SaveCadete();
                 return View("../Home/Index");
             }
             catch (Exception ex)
@@ -100,7 +100,7 @@ namespace tp03_2021.Controllers
                 }
                 _DB.DeletePedidoEnCadete(pedidoVM.Id);
                 cadeteAsignado.ListadoPedidos.Add(pedidoToEdit);
-                _DB.SaveCadete(_DB.GetAllCadetes());
+                _DB.SaveCadete();
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -118,7 +118,7 @@ namespace tp03_2021.Controllers
             try
             {                              
                 _DB.DeletePedido(id);
-                _DB.SaveCadete(_DB.GetAllCadetes());                
+                _DB.SaveCadete();                
                 return View("Index", _DB.GetAllPedidos());                      
             }
             catch(Exception ex)
