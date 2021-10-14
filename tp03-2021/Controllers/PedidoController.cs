@@ -46,12 +46,8 @@ namespace tp03_2021.Controllers
             try
             {
                 var cadeteAsignado = _DB.GetCadeteById(CadeteId);
-                var pedidoNuevo = new Pedido();
-
-                pedidoNuevo.Id = _DB.GetMaxPedidoId() + 1;
-                pedidoNuevo.Observaciones = observaciones;
-                pedidoNuevo.Estado = estado;
-                pedidoNuevo.Cliente = new Cliente(nombre, direccion, telefono);
+                var pedidoNuevo = new Pedido(_DB.GetMaxPedidoId() + 1, observaciones, estado, 
+                    nombre, direccion, telefono);
                                
                 _DB.Cadeteria.Pedidos.Add(pedidoNuevo);
                 _DB.SavePedido(_DB.Cadeteria.Pedidos);

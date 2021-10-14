@@ -17,10 +17,10 @@ namespace tp03_2021.Entities
             
         }
 
-        public Pedido(int id, Cliente cliente, string observaciones, Estado estado)
+        public Pedido(int id, string observaciones, Estado estado, string nombre, string direccion, string telefono)
         {
             Id = id;
-            Cliente = cliente;
+            Cliente = new Cliente(nombre, direccion, telefono);
             Observaciones = observaciones;
             this.Estado = estado;
         }
