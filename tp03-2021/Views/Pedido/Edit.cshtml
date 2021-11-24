@@ -1,4 +1,4 @@
-﻿@model tp03_2021.ViewModels.EditPedidoRequest
+﻿@model tp6.ViewModels.PedidoViewModel
 
 
 <!DOCTYPE html>
@@ -17,27 +17,38 @@
             <form asp-action="EditPedido" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="Id" class="control-label"></label>
-                    <input asp-for="Id" class="form-control" type="hidden" />
+                    <input asp-for="Id" class="form-control" type="hidden" value="@Model.Id"/>
 
                 </div>
                 <div class="form-check-inline">
 
                     <div class="form-group">
                         <label for="Cadete" class="control-label">Seleccione cadete</label>
-                        <select for="Cadete" asp-for="Cadete.Id">
+                        <select for="Cadete" name="CadeteId">
                             @foreach (var Cadete in Model.Cadetes)
                             {
-                                <option value="@Cadete.Id">@Cadete.Nombre</option>
+                                <option value="@Cadete.Id" selected="@(Cadete.Id == Model.CadeteId)">@Cadete.Nombre</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-check-inline">
+
+                    <div class="form-group">
+                        <label for="Cliente" class="control-label">Seleccione cliente</label>
+                        <select for="Cliente" name="ClienteId">
+                            @foreach (var Cliente in Model.Clientes)
+                            {
+                                <option value="@Cliente.Id" selected="@(Cliente.Id == Model.ClienteId)">@Cliente.Nombre</option>
                             }
                         </select>
                     </div>
                 </div>
                 <div class="bg-transparent">
                     <div class="form-group">
-                        <label asp-for="Observaciones" class="control-label">Observaciones</label>
+                        <label for="Observaciones" class="control-label">Observaciones</label>
                         <div>
-                            <textarea asp-for="Observaciones" rows="10" cols="50" class="text-black-50" placeholder="Observaciones"></textarea>
+                            <textarea asp-for="Observaciones" rows="10" cols="50" class="text-black-50" value="@Model.Observaciones"></textarea>
                         </div>
 
                     </div>
@@ -45,33 +56,12 @@
                     <div class="form-group">
                         <label for="Estado" class="control-label">Estado del pedido</label>
                         <select asp-for="Estado">
-                            <option value="0">Recibido</option>
-                            <option value="1">Realizandose</option>
-                            <option value="2">Entregado</option>
-                            <option value="3">Desconocido</option>
+                            <option value="1">Recibido</option>
+                            <option value="2">Realizandose</option>
+                            <option value="3">Entregado</option>
+                            <option value="4">Desconocido</option>
                         </select>
-                        <span asp-validation-for="Estado" class="text-danger"></span>
-                    </div>
-                    <h3>Cliente</h3>
-                    <div class="form-group">
-                        <label asp-for="Cliente.Id" class="control-label"></label>
-                        <input asp-for="Cliente.Id" class="form-control" type="hidden" />
-
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Cliente.Nombre" class="control-label">Nombre</label>
-                        <input asp-for="Cliente.Nombre" class="form-control" type="text" />
-
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Cliente.Direccion" class="control-label">Direccion</label>
-                        <input asp-for="Cliente.Direccion" class="form-control" type="text" />
-
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Cliente.Telefono" class="control-label">Telefono</label>
-                        <input asp-for="Cliente.Telefono" class="form-control" type="text" />
-
+                        <span validation-for="Estado" class="text-danger"></span>
                     </div>
 
                 </div>

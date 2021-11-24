@@ -1,23 +1,32 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using tp03_2021.Entities;
 using tp03_2021.Models;
+using tp03_2021.ViewModels;
 
 namespace tp03_2021.Controllers
 {
     public class CadeteController : Controller
     {
-        private readonly DBTemporal _DB;
-
-        public CadeteController(DBTemporal DB)
+        private readonly RepoCadete _repoCadete;
+        private readonly RepoCadeteria _repoCadeteria;
+        private readonly IMapper _mapper;
+        public CadeteController(RepoCadete repoCadete, IMapper mapper, RepoCadeteria repoCadeteria)
         {
-            _DB = DB;
+            _repoCadete = repoCadete;
+            _mapper = mapper;
+            _repoCadeteria = repoCadeteria;
         }
 
         // GET: CadeteController
         public ActionResult Index()
         {
-            return View(_DB.Cadeteria.Cadetes);
+            return View(_repoCadete.getAll());
         }
 
         // GET: CadeteController/Details/5
@@ -29,24 +38,24 @@ namespace tp03_2021.Controllers
         [Route("AltaCadetes")]
         public ActionResult AltaCadete()
         {
-            return View();
+            var cadeteVM = new CadeteViewModel();
+            cadeteVM.Cadeterias = _repoCadeteria.getAll();
+            return View(cadeteVM);
         }
 
         // POST: CadeteController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CrearCadete(Cadete cadete)
+        public ActionResult CrearCadete(CadeteViewModel cadete)
         {
             try
             {
-                cadete.Id = _DB.GetMaxCadeteId()+1;
-                _DB.Cadeteria.Cadetes.Add(cadete);
-                _DB.SaveCadete();
+                _repoCadete.CreateCadete(cadete);
                 return RedirectToAction("AltaCadete");
             }
             catch(Exception ex)
             {
-                var error = new ErrorViewModel();
+                var error = new ErrorViewModel(ex.Message);
                 return View("Error", error);
             }
         }
@@ -54,14 +63,17 @@ namespace tp03_2021.Controllers
         // GET: CadeteController/Edit/5
         public ActionResult Edit(int id)
         {
-            var cadeteToEdit = _DB.Cadeteria.Cadetes.Find(x => x.Id == id);
-            return View(cadeteToEdit);
+            if (id < 1) return View("Index");
+            var cadete = _repoCadete.getCadeteById(id);
+            var cadeteVM = _mapper.Map<Cadete, CadeteViewModel>(cadete);
+            cadeteVM.Cadeterias = _repoCadeteria.getAll();
+            return View(cadeteVM);
         }
 
         // POST: CadeteController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditCadete(Cadete cadete)
+        public ActionResult EditCadete(CadeteViewModel cadete)
         {
             if (cadete == null)
             {
@@ -69,16 +81,13 @@ namespace tp03_2021.Controllers
             }
             try
             {
-                var cadeteToEdit = _DB.Cadeteria.Cadetes.Find(x => x.Id == cadete.Id);
-                cadeteToEdit.Nombre = cadete.Nombre;
-                cadeteToEdit.Direccion = cadete.Direccion;
-                cadeteToEdit.Telefono = cadete.Telefono;
-                _DB.SaveCadete();
+                _repoCadete.UpdateCadete(cadete);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                var error = new ErrorViewModel(ex.Message);
+                return View("Error", error);
             }
         }
 
@@ -86,8 +95,18 @@ namespace tp03_2021.Controllers
         [HttpPost]
         public IActionResult Delete(int id)
         {
-            _DB.DeleteCadete(id);
-            return View("Index", _DB.GetAllCadetes());
+            
+            if(id<1) return View("Index");
+            try
+            {
+                _repoCadete.DeleteCadete(id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                var error = new ErrorViewModel(ex.Message);
+                return View("Error", error);
+            }
         }
 
 

@@ -1,20 +1,17 @@
+using System;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using tp03_2021.Entities;
+using tp03_2021.Mapper;
+using tp03_2021.Models;
 
 namespace tp03_2021
 {
     public class Startup
     {
-        static DBTemporal DB = new DBTemporal();
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -25,8 +22,29 @@ namespace tp03_2021
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews().AddRazorRuntimeCompilation();
-            services.AddSingleton(DB);
+            string ConnectionString = Configuration.GetConnectionString("default");
+            RepoCadete repoCadete = new RepoCadete(ConnectionString);
+            RepoCadeteria repoCadeteria = new RepoCadeteria(ConnectionString);
+            RepoCliente repoCliente = new RepoCliente(ConnectionString);
+            RepoPedido repoPedido = new RepoPedido(ConnectionString);
+            services.AddSingleton(repoCadete);
+            services.AddSingleton(repoCadeteria);
+            services.AddSingleton(repoCliente);
+            services.AddSingleton(repoPedido);
+            services.AddControllersWithViews();
+            //configuracion de Automapper
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MapConfig());
+            });
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(3600);
+                options.Cookie.HttpOnly  = true;
+                options.Cookie.IsEssential = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +64,8 @@ namespace tp03_2021
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseSession();
 
             app.UseAuthorization();
 

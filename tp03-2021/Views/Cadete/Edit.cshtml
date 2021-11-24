@@ -1,4 +1,4 @@
-﻿@model tp03_2021.Entities.Cadete
+﻿@model tp6.ViewModels.CadeteViewModel
 
 <div class="container-sm w-50 bg-light d-flex justify-content-center">
     <form asp-action="EditCadete" method="post" class="row g-3 p-3" role="form">
@@ -26,12 +26,15 @@
                 <input asp-for="Telefono" type="number" class="form-control" />
             </div>
         </div>
-        @*<div class="form-group d-flex justify-content-center">
-                <label asp-for="ListadoPedidos" class="col-sm-3 col-form-label"></label>
-                <div class="col-sm-3">
-                    <input asp-for="ListadoPedidos" type="" class="form-control" value="Pedidos"/>
-                </div>
-            </div>*@
+        <div class="form-group d-flex justify-content-center">
+            <label asp-for="CadeteriaId" class="control-label">Seleccione cadeteria</label>
+            <select asp-for="CadeteriaId" name="CadeteriaId">
+                @foreach (var Cadeteria in Model.Cadeterias)
+                {
+                    <option value="@Cadeteria.Id"  selected="@(Cadeteria.Id == Model.CadeteriaId)">@Cadeteria.Nombre</option>
+                }
+            </select>
+        </div>
         <div class="col-12 d-flex justify-content-center">
             <input type="submit" class="btn-success" value="Enviar" />
         </div>

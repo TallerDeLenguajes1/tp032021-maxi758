@@ -1,6 +1,6 @@
-﻿@model tp03_2021.Entities.Cadete
+﻿@model tp6.ViewModels.CadeteViewModel
 
-<div class="container-sm w-50 bg-light d-flex justify-content-center">
+<div class="container-sm w-75 bg-light d-flex justify-content-center">
     <form asp-action="CrearCadete" method="post" class="row g-3 p-3" role="form">
 
         <div class="form-group d-flex justify-content-center">
@@ -11,20 +11,29 @@
         <div class="form-group d-flex justify-content-center">
             <label asp-for="Nombre" class="col-sm-3 col-form-label"></label>
             <div class="col-xl-3">
-                <input asp-for="Nombre" type="text" class="form-control" placeholder="Gon"/>
+                <input asp-for="Nombre" type="text" class="form-control" placeholder="Gon" />
             </div>
         </div>
         <div class="form-group d-flex justify-content-center">
             <label asp-for="Direccion" class="col-sm-3 col-form-label"></label>
             <div class="col-xl-3">
-                <input asp-for="Direccion" type="text" class="form-control" placeholder="fake st. 123"/>
+                <input asp-for="Direccion" type="text" class="form-control" placeholder="fake st. 123" />
             </div>
         </div>
         <div class="form-group d-flex justify-content-center">
             <label asp-for="Telefono" class="col-sm-3 col-form-label"></label>
             <div class="col-xl-3">
-                <input asp-for="Telefono" type="number" class="form-control" placeholder="0303456"/>
+                <input asp-for="Telefono" type="number" class="form-control" placeholder="0303456" />
             </div>
+        </div>
+        <div class="form-group d-flex justify-content-center">
+            <label asp-for="CadeteriaId" class="control-label">Seleccione cadeteria</label>
+            <select asp-for="CadeteriaId" name="CadeteriaId">
+                @foreach (var Cadeteria in Model.Cadeterias)
+                {
+                    <option value="@Cadeteria.Id">@Cadeteria.Nombre</option>
+                }
+            </select>
         </div>
         @*<div class="form-group d-flex justify-content-center">
             <label asp-for="ListadoPedidos" class="col-sm-3 col-form-label"></label>

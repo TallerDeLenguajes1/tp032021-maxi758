@@ -1,43 +1,43 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using tp03_2021.Entities;
 using tp03_2021.Models;
 
 namespace tp03_2021.Controllers
 {
-    
-    public class CadeteriaController : Controller
+    public class ClienteController : Controller
     {
-        private readonly RepoCadeteria _repoCadeteria;
-
-        public CadeteriaController(RepoCadeteria repoCadeteria)
+        private readonly RepoCliente _repoCliente;
+        private readonly IMapper _mapper;
+        public ClienteController(RepoCliente repoCliente)
         {
-            _repoCadeteria = repoCadeteria;
+            _repoCliente = repoCliente;
         }
 
-        // GET: CadeteriaController
+        // GET: ClienteController
         public ActionResult Index()
         {
-            return View(_repoCadeteria.getAll());
+            var listadoClientes = _repoCliente.getAll();
+            return View(listadoClientes);
         }
 
-        // GET: CadeteriaController/Details/5
+        // GET: ClienteController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: CadeteriaController/Create
+        // GET: ClienteController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: CadeteriaController/Create
+        // POST: ClienteController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -52,13 +52,13 @@ namespace tp03_2021.Controllers
             }
         }
 
-        // GET: CadeteriaController/Edit/5
+        // GET: ClienteController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: CadeteriaController/Edit/5
+        // POST: ClienteController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -73,13 +73,13 @@ namespace tp03_2021.Controllers
             }
         }
 
-        // GET: CadeteriaController/Delete/5
+        // GET: ClienteController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: CadeteriaController/Delete/5
+        // POST: ClienteController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

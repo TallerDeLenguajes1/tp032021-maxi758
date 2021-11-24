@@ -3,7 +3,7 @@
 *@
 @{
 }
-@model List<tp03_2021.Entities.Cadete>
+@model List<tp6.ViewModels.CadeteViewModel>
 
 <div class="text-center">
     <h2 class="display-3 mb-3 text-dark">Listado de Cadetes</h2>
@@ -14,6 +14,7 @@
                 <th scope="col">Nombre</th>
                 <th scope="col">Direccion</th>
                 <th scope="col">Teléfono</th>
+                <th scope="col">Cantidad Pedidos</th>
             </tr>
         </thead>
         <tbody>
@@ -24,6 +25,7 @@
                 <td>@item.Nombre</td>
                 <td>@item.Direccion</td>
                 <td>@item.Telefono</td>
+                <td>@item.CantidadPedidos</td>
 
                 <td>
                     <form asp-action="Delete" asp-controller="Cadete" method="post">

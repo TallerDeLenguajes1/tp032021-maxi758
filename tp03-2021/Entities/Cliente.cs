@@ -1,33 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace tp03_2021.Entities
 {
-    
-    public class Cliente
+    public class Cliente : Persona
     {
-        static int identificador = 0;
-        public int Id { get; set; }
-        public String Nombre { get; set; }
-        public String Direccion { get; set; }
-        public String Telefono { get; set; }
         public Cliente()
         {
-
         }
 
-        public Cliente(String nombre, String direccion, String telefono)
+        public Cliente(string nombre, string direccion, string telefono) : base(nombre, direccion, telefono)
         {
-      
-            identificador++;
-            Id = identificador;
-            Nombre = nombre;
-            Direccion = direccion;
-            Telefono = telefono;
-        
         }
-
-        
     }
 }

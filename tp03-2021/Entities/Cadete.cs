@@ -1,28 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace tp03_2021.Entities
 {
-    public class Cadete
+    public enum Vehiculo
     {
-        public int Id { get; set; }      
-        public string Nombre { get; set; }
-        public string Direccion { get; set; }
-        public string Telefono { get; set; }
-        public List<Pedido> ListadoPedidos { get; set; } = new List<Pedido>();
-        public Cadete()
-        {
-
+        bicicleta, auto, moto
+    }
+    public class Cadete : Persona
+    {
+        public int CadeteriaId { get; set; }
+        public List<Pedido> ListaPedidos { get; set; }
+        public Cadete(){
+            
         }
-
-        public Cadete(int id, string nombre, string direccion, string telefono, List<Pedido> listadoPedidos)
+        public Cadete(List<Pedido> listaPedidos)
         {
-            Id = id;
-            Nombre = nombre;
-            Direccion = direccion;
-            Telefono = telefono;
-            ListadoPedidos = listadoPedidos;
+            ListaPedidos = listaPedidos;
         }
     }
 }

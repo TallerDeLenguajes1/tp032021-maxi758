@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,91 +13,70 @@ namespace tp03_2021.Controllers
 {
     public class PedidoController : Controller
     {
-        private readonly DBTemporal _DB;
+        private readonly RepoPedido _repoPedido;
+        private readonly RepoCadete _repoCadete;
+        private readonly RepoCliente _repoCliente;
+        private readonly IMapper _mapper;
 
-        public PedidoController(DBTemporal dB)
+        public PedidoController(RepoPedido repoPedido, RepoCadete repoCadete, RepoCliente repoCliente, IMapper mapper)
         {
-            _DB = dB;
+            _repoPedido = repoPedido;
+            _repoCadete = repoCadete;
+            _repoCliente = repoCliente;
+            _mapper = mapper;
         }
 
         // GET: PedidoController
         public ActionResult Index()
         {
-            return View(_DB.Cadeteria.Pedidos);
+            var listadoPedidos = _repoPedido.getAll();
+            return View(listadoPedidos);
         }
 
-        // GET: PedidoController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
 
-        // GET: PedidoController/Create
         public ActionResult AltaPedido()
         {
-            return View(_DB.Cadeteria.Cadetes);
+            var pedidoVM = new PedidoViewModel();
+            pedidoVM.Cadetes = _repoCadete.getAll();
+            pedidoVM.Clientes = _repoCliente.getAll();
+            return View(pedidoVM);
         }
-
-        // POST: PedidoController/Create
+        // GET: PedidoController/Create
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CrearPedido(string observaciones, Estado estado, int CadeteId,
-             string nombre, string direccion, string telefono)
+        public ActionResult CrearPedido(PedidoPostViewModel pedidoVM)
         {
             try
             {
-                var cadeteAsignado = _DB.GetCadeteById(CadeteId);
-                var pedidoNuevo = new Pedido(_DB.GetMaxPedidoId() + 1, observaciones, estado, 
-                    nombre, direccion, telefono);
-                               
-                _DB.Cadeteria.Pedidos.Add(pedidoNuevo);
-                _DB.SavePedido(_DB.Cadeteria.Pedidos);
-                cadeteAsignado.ListadoPedidos.Add(pedidoNuevo);
-                _DB.SaveCadete();
-                return View("../Home/Index");
+                _repoPedido.CreatePedido(pedidoVM);
+                return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                return View("Index");
+                var error = new ErrorViewModel(ex.Message);
+                return View("Error", error);
             }
         }
 
         // GET: PedidoController/Edit/5
         public ActionResult Edit(int id)
         {
-            var pedidoToEdit = _DB.Cadeteria.Pedidos.Find(x => x.Id == id);
-            var pedidoVM = new EditPedidoRequest();
-            pedidoVM.Cadetes = _DB.Cadeteria.Cadetes;
-            pedidoVM.Cliente = pedidoToEdit.Cliente;
-            pedidoVM.Estado = pedidoToEdit.Estado;
-            pedidoVM.Observaciones = pedidoToEdit.Observaciones;
+            var pedidoAEditar = _repoPedido.getPedidoById(id);
+            var pedidoVM = _mapper.Map<Pedido, PedidoViewModel>(pedidoAEditar);
+            pedidoVM.Cadetes = _repoCadete.getAll();
+            pedidoVM.Clientes = _repoCliente.getAll();
             return View(pedidoVM);
         }
 
         // POST: PedidoController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditPedido(EditPedidoResponse pedidoVM)
+        public ActionResult EditPedido(PedidoPostViewModel pedidoVM)
         {
-            if (pedidoVM == null)
-            {
-                return View("Index");
-            }
             try
             {
-                var pedidoToEdit = _DB.GetPedidoById(pedidoVM.Id);
-                pedidoToEdit.Cliente = pedidoVM.Cliente;
-                pedidoToEdit.Estado = pedidoVM.Estado;
-                pedidoToEdit.Observaciones = pedidoVM.Observaciones;
-                _DB.SavePedido(_DB.GetAllPedidos());
-                var cadeteAsignado = _DB.GetCadeteById(pedidoVM.Cadete.Id);
-                if (cadeteAsignado.ListadoPedidos.Contains(pedidoToEdit))
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                _DB.DeletePedidoEnCadete(pedidoVM.Id);
-                cadeteAsignado.ListadoPedidos.Add(pedidoToEdit);
-                _DB.SaveCadete();
+                _repoPedido.UpdatePedido(pedidoVM);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -105,23 +85,13 @@ namespace tp03_2021.Controllers
             }
         }
 
-        
-        // POST: PedidoController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id)
+        // GET: PedidoController/Delete/5
+        public ActionResult Delete(int id)
         {
-            try
-            {                              
-                _DB.DeletePedido(id);
-                _DB.SaveCadete();                
-                return View("Index", _DB.GetAllPedidos());                      
-            }
-            catch(Exception ex)
-            {
-                var error = new ErrorViewModel();
-                return View("Error", error);
-            }
+            _repoPedido.DeletePedido(id);
+            return RedirectToAction(nameof(Index)); 
         }
+
+        
     }
 }
