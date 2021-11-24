@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - tp4</title>
+    <title>@ViewData["Title"] - tp03_2021</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
@@ -11,7 +11,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">tp4</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">tp03_2021</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -24,7 +24,51 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+
+                        <li>
+                            <div class="btn-group">
+                                <button type="button" class="btn text-decoration-none dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Cadetes
+                                </button>
+                                <div class="dropdown-menu text-left">
+
+                                    <a class="nav-link dropdown-item text-dark" asp-area="" asp-controller="Cadete" asp-action="Index">Cadetes</a>
+
+                                    <a class="nav-link dropdown-item" asp-area="" asp-controller="Cadete" asp-action="AltaCadete">Alta de Cadetes</a>
+
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="btn-group">
+                                <button type="button" class="btn text-decoration-none dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Pedidos
+                                </button>
+                                <div class="dropdown-menu text-left">
+
+                                    <a class="nav-link dropdown-item text-dark" asp-area="" asp-controller="Pedido" asp-action="Index">Pedidos</a>
+
+                                    <a class="nav-link dropdown-item" asp-area="" asp-controller="Pedido" asp-action="AltaPedido">Crear Pedido</a>
+
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="btn-group">
+                                <button type="button" class="btn text-decoration-none dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Clientes
+                                </button>
+                                <div class="dropdown-menu text-left">
+
+                                    <a class="nav-link dropdown-item text-dark" asp-area="" asp-controller="Cliente" asp-action="Index">Clientes</a>
+
+                                    <a class="nav-link dropdown-item" asp-area="" asp-controller="Cliente" asp-action="Create">Alta Cliente</a>
+
+                                </div>
+                            </div>
+                        </li>
                     </ul>
+
                 </div>
             </div>
         </nav>
@@ -37,7 +81,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - tp4 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - tp03_2021 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
