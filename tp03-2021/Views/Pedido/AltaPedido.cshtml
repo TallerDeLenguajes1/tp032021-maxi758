@@ -1,15 +1,6 @@
 ﻿@model tp03_2021.ViewModels.PedidoViewModel
 
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>AltaPedido</title>
-</head>
-<body>
-
     <h4>Pedido</h4>
     <hr />
     <div class="row">
@@ -21,37 +12,31 @@
                     <input name="Id" class="form-control" type="hidden" />
 
                 </div>
-                <div class="form-check-inline">
 
-                    <div class="form-group">
-                        <label for="Cadete" class="control-label">Seleccione cadete</label>
-                        <select for="Cadete" name="CadeteId">
-                            @foreach (var Cadete in Model.Cadetes)
-                            {
-                                <option value="@Cadete.Id">@Cadete.Nombre</option>
-                            }
-                        </select>
-                    </div>
+                <div class="form-group">
+                    <label for="Cadete" class="control-label">Seleccione cadete</label>
+                    <select for="Cadete" name="CadeteId" class="form-control">
+                        @foreach (var Cadete in Model.Cadetes)
+                        {
+                            <option value="@Cadete.Id">@Cadete.Nombre</option>
+                        }
+                    </select>
                 </div>
-                <div class="form-check-inline">
 
-                    <div class="form-group">
-                        <label for="ClienteId" class="control-label">Seleccione cadete</label>
-                        <select for="ClienteId" name="ClienteId">
-                            @foreach (var Cliente in Model.Clientes)
-                            {
-                                <option value="@Cliente.Id">@Cliente.Nombre</option>
-                            }
-                        </select>
-                    </div>
+                <div class="form-group">
+                    <label for="ClienteId" class="control-label">Seleccione cliente</label>
+                    <select for="ClienteId" name="ClienteId" class="form-control">
+                        @foreach (var Cliente in Model.Clientes)
+                        {
+                            <option value="@Cliente.Id">@Cliente.Nombre</option>
+                        }
+                    </select>
                 </div>
+                
                 <div class="bg-transparent">
                     <div class="form-group">
-                        <label for="Observaciones" class="control-label">Observaciones</label>
-                        <div>
-                            <textarea name="observaciones" rows="10" cols="50" class="text-black-50" placeholder="Observaciones"></textarea>
-                        </div>
-
+                        <label for="Observaciones" class="control-label">Observaciones</label>                        
+                        <textarea name="observaciones" rows="10" cols="50" class="text-black-50 form-control" placeholder="Observaciones"></textarea>                        
                     </div>
 
                     <div class="form-group">
@@ -74,8 +59,5 @@
     </div>
 
     <div>
-        <a asp-action="Index">Back to List</a>
+        <a asp-action="Index">Volver</a>
     </div>
-
-</body>
-</html>

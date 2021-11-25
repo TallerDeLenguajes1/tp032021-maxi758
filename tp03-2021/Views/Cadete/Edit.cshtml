@@ -1,45 +1,55 @@
 ﻿@model tp03_2021.ViewModels.CadeteViewModel
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CrearCadete" method="post" role="form">
 
-<div class="container-sm w-50 bg-light d-flex justify-content-center">
-    <form asp-action="EditCadete" method="post" class="row g-3 p-3" role="form">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label for="Id" class="control-label"></label>
+                <input name="Id" class="form-control" type="hidden" />
 
-        <div class="form-group d-flex justify-content-center">
-
-            <input asp-for="Id" type="hidden" class="form-control" />
-
-        </div>
-        <div class="form-group d-flex justify-content-center">
-            <label asp-for="Nombre" class="col-sm-3 col-form-label"></label>
-            <div class="col-xl-3">
-                <input asp-for="Nombre" type="text" class="form-control" />
             </div>
-        </div>
-        <div class="form-group d-flex justify-content-center">
-            <label asp-for="Direccion" class="col-sm-3 col-form-label"></label>
-            <div class="col-xl-3">
-                <input asp-for="Direccion" type="text" class="form-control" />
+            <div class="form-check-inline">
+                <div class="form-group">
+                    <label asp-for="Nombre" class="control-label"></label>
+                    <input asp-for="Nombre" type="text" class="form-control" placeholder="Gon" />
+                </div>
             </div>
-        </div>
-        <div class="form-group d-flex justify-content-center">
-            <label asp-for="Telefono" class="col-sm-3 col-form-label"></label>
-            <div class="col-xl-3">
-                <input asp-for="Telefono" type="number" class="form-control" />
+            <div class="form-check-inline">
+                <div class="form-group">
+                    <label asp-for="Direccion" class="control-label"></label>
+                    <input asp-for="Direccion" type="text" class="form-control" placeholder="fake st. 123" />
+                </div>
             </div>
-        </div>
-        <div class="form-group d-flex justify-content-center">
-            <label asp-for="CadeteriaId" class="control-label">Seleccione cadeteria</label>
-            <select asp-for="CadeteriaId" name="CadeteriaId">
-                @foreach (var Cadeteria in Model.Cadeterias)
-                {
-                    <option value="@Cadeteria.Id"  selected="@(Cadeteria.Id == Model.CadeteriaId)">@Cadeteria.Nombre</option>
-                }
-            </select>
-        </div>
-        <div class="col-12 d-flex justify-content-center">
-            <input type="submit" class="btn-success" value="Enviar" />
-        </div>
-    </form>
+            <div class="form-check-inline">
+                <div class="form-group">
+                    <label asp-for="Telefono" class="control-label"></label>
+                    <input asp-for="Telefono" type="number" class="form-control" placeholder="0303456" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="CadeteriaId" class="control-label">Seleccione cadeteria</label>
+                <select asp-for="CadeteriaId" name="CadeteriaId" class="form-control">
+                    @foreach (var Cadeteria in Model.Cadeterias)
+                    {
+                        <option value="@Cadeteria.Id">@Cadeteria.Nombre</option>
+                    }
+                </select>
+            </div>
+            @*<div class="form-group d-flex justify-content-center">
+                    <label asp-for="ListadoPedidos" class="col-sm-3 col-form-label"></label>
+                    <div class="col-sm-3">
+                        <input asp-for="ListadoPedidos" type="" class="form-control" value="Pedidos"/>
+                    </div>
+                </div>*@
+            <div class="col-12 d-flex justify-content-center">
+                <input type="submit" class="btn-success" value="Enviar" />
+            </div>
+        </form>
+    </div>
 </div>
 <div>
-    <a asp-controller="Cadete" asp-action="Index">Back to List</a>
+    <a asp-controller="Cadete" asp-action="Index">Volver</a>
 </div>
+
+
