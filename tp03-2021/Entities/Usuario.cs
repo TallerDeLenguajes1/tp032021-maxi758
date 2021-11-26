@@ -7,7 +7,8 @@ namespace tp03_2021.Entities
 {
     public class Usuario
     {
-        public string Nickname { get; set; }
+        public int Id { get; set; }
+        public string Username { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
 
@@ -17,7 +18,7 @@ namespace tp03_2021.Entities
 
         public Usuario(string nickname, string password, string email)
         {
-            Nickname = nickname;
+            Username = nickname;
             Password = password;
             Email = email;
         }

@@ -27,11 +27,14 @@ namespace tp03_2021
             RepoCadeteria repoCadeteria = new RepoCadeteria(ConnectionString);
             RepoCliente repoCliente = new RepoCliente(ConnectionString);
             RepoPedido repoPedido = new RepoPedido(ConnectionString);
+            RepoUsuario repoUsuario = new RepoUsuario(ConnectionString);
             services.AddSingleton(repoCadete);
             services.AddSingleton(repoCadeteria);
             services.AddSingleton(repoCliente);
             services.AddSingleton(repoPedido);
-            services.AddControllersWithViews();
+            services.AddSingleton(repoUsuario);
+
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             //configuracion de Automapper
             var mappingConfig = new MapperConfiguration(mc =>
             {

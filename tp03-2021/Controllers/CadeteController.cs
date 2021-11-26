@@ -26,7 +26,11 @@ namespace tp03_2021.Controllers
         // GET: CadeteController
         public ActionResult Index()
         {
-            return View(_repoCadete.getAll());
+            if (HttpContext.Session.GetInt32("ID") != null)
+            {
+                return View(_repoCadete.getAll());
+            }
+            return View("../Home/Index");
         }
 
         // GET: CadeteController/Details/5

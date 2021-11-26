@@ -17,6 +17,7 @@ namespace tp03_2021.Mapper
                 .ForMember(dest=>dest.ClienteId, o => o.MapFrom(s=>s.Cliente.Id))
                 .ForMember(dest => dest.CadeteId, o => o.MapFrom(s => s.Cadete.Id));
             CreateMap<Pedido, PedidoGetViewModel>();
+            CreateMap<Usuario, RegisterViewModel>().ReverseMap();
         }
     }
 }
