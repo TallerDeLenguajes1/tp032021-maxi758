@@ -38,7 +38,7 @@ namespace tp03_2021.Models
                             Id = Convert.ToInt32(dataReader["pedidoID"]),
                             Observaciones = dataReader["pedidoObs"].ToString(),
                             Cliente = new Cliente { Nombre = dataReader["clienteNombre"].ToString(), Id = Convert.ToInt32(dataReader["clienteId"])},
-                            EstadoPedido = (Estado)Enum.Parse(typeof(Estado), dataReader["pedidoEstado"].ToString()),
+                            EstadoPedido = (Estado)Convert.ToInt32(dataReader["pedidoEstado"]),
                             
                             //Cliente = cliente
                         };
@@ -89,7 +89,7 @@ namespace tp03_2021.Models
                 string SQLiteQuery = "INSERT INTO Pedidos(pedidoObs, cadeteId, clienteId, pedidoEstado, activo) values(@observ, @cadeteId, @clienteId, @estado, @activo); ";
                 SQLiteCommand command = new SQLiteCommand(SQLiteQuery, connection);
                 command.Parameters.AddWithValue("@observ", pedidoVM.Observaciones);
-                command.Parameters.AddWithValue("@estado", pedidoVM.Estado.ToString());
+                command.Parameters.AddWithValue("@estado", Convert.ToInt32(pedidoVM.Estado));
                 command.Parameters.AddWithValue("@cadeteId", pedidoVM.CadeteId);
                 command.Parameters.AddWithValue("@clienteId", pedidoVM.ClienteId);
                 command.Parameters.AddWithValue("@activo", 1);
