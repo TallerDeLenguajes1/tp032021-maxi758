@@ -11,7 +11,7 @@ namespace tp03_2021.Entities
         public string Username { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
-
+        public int Rol { get; set; }
         public Usuario()
         {
         }

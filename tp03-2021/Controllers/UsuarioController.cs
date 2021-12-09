@@ -76,6 +76,7 @@ namespace tp03_2021.Controllers
                 var user = _repoUsuario.Login(usuario); 
                 if (user == null) return View("Login");
                 HttpContext.Session.SetInt32("ID", user.Id);
+                HttpContext.Session.SetInt32("Rol", user.Id);
                 HttpContext.Session.SetString("username", user.Username);
                 return RedirectToAction(nameof(Index));
             }

@@ -26,25 +26,23 @@ namespace tp03_2021.Controllers
         // GET: CadeteController
         public ActionResult Index()
         {
-            if (HttpContext.Session.GetInt32("ID") != null)
+            if (HttpContext.Session.GetInt32("ID") == 2)
             {
                 return View(_repoCadete.getAll());
             }
             return View("../Home/Index");
         }
 
-        // GET: CadeteController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
         [Route("AltaCadetes")]
         public ActionResult AltaCadete()
         {
-            var cadeteVM = new CadeteViewModel();
-            cadeteVM.Cadeterias = _repoCadeteria.getAll();
-            return View(cadeteVM);
+            if (HttpContext.Session.GetInt32("ID") == 2)
+            {
+                var cadeteVM = new CadeteViewModel();
+                cadeteVM.Cadeterias = _repoCadeteria.getAll();
+                return View(cadeteVM);
+            }
+            return View("../Home/Index");
         }
 
         // POST: CadeteController/Create
@@ -54,8 +52,12 @@ namespace tp03_2021.Controllers
         {
             try
             {
-                _repoCadete.CreateCadete(cadete);
-                return RedirectToAction("AltaCadete");
+                if (HttpContext.Session.GetInt32("ID") == 2)
+                {
+                    _repoCadete.CreateCadete(cadete);
+                    return RedirectToAction("AltaCadete");
+                }
+                return View("../Home/Index");
             }
             catch(Exception ex)
             {
@@ -67,11 +69,15 @@ namespace tp03_2021.Controllers
         // GET: CadeteController/Edit/5
         public ActionResult Edit(int id)
         {
-            if (id < 1) return View("Index");
-            var cadete = _repoCadete.getCadeteById(id);
-            var cadeteVM = _mapper.Map<Cadete, CadeteViewModel>(cadete);
-            cadeteVM.Cadeterias = _repoCadeteria.getAll();
-            return View(cadeteVM);
+            if (HttpContext.Session.GetInt32("ID") == 2)
+            {
+                if (id < 1) return View("Index");
+                var cadete = _repoCadete.getCadeteById(id);
+                var cadeteVM = _mapper.Map<Cadete, CadeteViewModel>(cadete);
+                cadeteVM.Cadeterias = _repoCadeteria.getAll();
+                return View(cadeteVM);
+            }
+            return View("../Home/Index");
         }
 
         // POST: CadeteController/Edit/5
@@ -99,12 +105,16 @@ namespace tp03_2021.Controllers
         [HttpPost]
         public IActionResult Delete(int id)
         {
-            
-            if(id<1) return View("Index");
+                       
             try
             {
-                _repoCadete.DeleteCadete(id);
-                return RedirectToAction(nameof(Index));
+                if (HttpContext.Session.GetInt32("ID") == 2)
+                {
+                    if (id < 1) return View("Index");
+                    _repoCadete.DeleteCadete(id);
+                    return RedirectToAction(nameof(Index));
+                }
+                return View("../Home/Index");
             }
             catch (Exception ex)
             {

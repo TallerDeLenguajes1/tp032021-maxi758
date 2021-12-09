@@ -40,7 +40,7 @@ namespace tp03_2021.Models
             {
                 connection.Open();
                 var command = connection.CreateCommand();
-                command.CommandText = "SELECT usuarioId, nombre, password FROM  Usuarios WHERE nombre=@nombre AND password=@password";
+                command.CommandText = "SELECT usuarioId, nombre, password, Rol FROM  Usuarios WHERE nombre=@nombre AND password=@password";
                 command.Parameters.AddWithValue("@nombre", usuario.Username);
                 command.Parameters.AddWithValue("@password", usuario.Password);
                 SQLiteDataReader dataReader = command.ExecuteReader();
@@ -52,7 +52,7 @@ namespace tp03_2021.Models
                 userData.Username = dataReader["nombre"].ToString();
                 userData.Password = dataReader["password"].ToString();
                 userData.Id = Convert.ToInt32(dataReader["usuarioId"]);
-
+                userData.Rol = Convert.ToInt32(dataReader["Rol"]);
                 dataReader.Close();
                 connection.Close();
             }

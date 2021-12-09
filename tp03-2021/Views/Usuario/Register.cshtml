@@ -1,27 +1,39 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    Layout = "Guest_Layout";
 }
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="RegisterUser" method="post">
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+@model tp03_2021.ViewModels.RegisterViewModel
 
-            <div class="form-group">
-                <label for="Username" class="control-label">Usuario</label>
-                <input type="text" name="Username" class="form-control" required/>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <div class="login-form bg-light mt-4 p-4">
+                <form asp-action="RegisterUser" method="post" class="row g-3">
+
+                    <div class="col-12 form-group">
+                        <label asp-for="Username" class="control-label">Usuario</label>
+                        <input type="text" asp-for="Username" class="form-control" required />
+                        <span asp-validation-for="Username" class="text-danger"></span>
+                    </div>
+                    <div class="col-12 form-group">
+                        <label asp-for="Password" class="control-label">Contraseña</label>
+                        <input type="text" asp-for="Password" class="form-control" required />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="col-12 form-group">
+                        <label asp-for="VerifyPassword" class="control-label">Repita Contraseña</label>
+                        <input type="text" asp-for="VerifyPassword" class="form-control" required />
+                        <span asp-validation-for="VerifyPassword" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Registrarse" class="btn btn-dark float-left" />
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="Username" class="control-label">Contraseña</label>
-                <input type="text" name="Password" class="form-control" required/>
-            </div>
-            <div class="form-group">
-                <label for="Username" class="control-label">Repita Contraseña</label>
-                <input type="text" name="VerifyPassword" class="form-control" required/>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Registrarse" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
+
+

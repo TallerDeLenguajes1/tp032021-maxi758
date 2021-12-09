@@ -9,7 +9,7 @@ namespace tp03_2021.ViewModels
     public class LoginViewModel
     {
         [Required(ErrorMessage = "Este campo es obligatorio")]
-        public string UserName { get; set; }
+        public string Username { get; set; }
         [Required(ErrorMessage = "Este campo es obligatorio")]
         [StringLength(8, MinimumLength = 8,
             ErrorMessage = "La contraseña debe contener 8 caracteres")]

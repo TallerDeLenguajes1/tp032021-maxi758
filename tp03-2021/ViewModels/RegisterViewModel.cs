@@ -9,13 +9,13 @@ namespace tp03_2021.ViewModels
     public class RegisterViewModel
     {
         [Required(ErrorMessage = "Este campo es obligatorio")]
-        public string UserName { get; set; }
+        public string Username { get; set; }
         [Required(ErrorMessage = "Este campo es obligatorio")]
         [StringLength(8, MinimumLength = 8,
             ErrorMessage = "La contraseña debe contener 8 caracteres")]
         public string Password { get; set; }
         [Required(ErrorMessage = "Este campo es obligatorio")]
-        [Compare(nameof(Password), ErrorMessage = "Paswords no coinciden")]
+        [Compare(nameof(Password), ErrorMessage = "Contraseñas no coinciden")]
         public string VerifyPassword { get; set; }
     }
 }
