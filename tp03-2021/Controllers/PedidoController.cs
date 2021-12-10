@@ -29,17 +29,43 @@ namespace tp03_2021.Controllers
         // GET: PedidoController
         public ActionResult Index()
         {
-            var listadoPedidos = _repoPedido.getAll();
-            return View(listadoPedidos);
+            try
+            {
+                if (HttpContext.Session.GetInt32("Rol") >= 2)
+                {
+                    var listadoPedidos = _repoPedido.getAll();
+                    return View(listadoPedidos);
+                }
+                return View("../Home/Index");
+            }
+            catch (Exception ex)
+            {
+                var error = new ErrorViewModel(ex.Message);
+                return View("Error", error);
+            }
+                
         }
 
 
         public ActionResult AltaPedido()
         {
-            var pedidoVM = new PedidoViewModel();
-            pedidoVM.Cadetes = _repoCadete.getAll();
-            pedidoVM.Clientes = _repoCliente.getAll();
-            return View(pedidoVM);
+            try
+            {
+                if (HttpContext.Session.GetInt32("Rol") >= 1)
+                {
+                    var pedidoVM = new PedidoViewModel();
+                    pedidoVM.Cadetes = _repoCadete.getAll();
+                    pedidoVM.Clientes = _repoCliente.getAll();
+                    return View(pedidoVM);
+                }
+                return View("../Home/Index");
+            }
+            catch (Exception ex)
+            {
+                var error = new ErrorViewModel(ex.Message);
+                return View("Error", error);
+            }
+            
         }
         // GET: PedidoController/Create
        
@@ -49,8 +75,12 @@ namespace tp03_2021.Controllers
         {
             try
             {
-                _repoPedido.CreatePedido(pedidoVM);
-                return RedirectToAction(nameof(Index));
+                if (HttpContext.Session.GetInt32("Rol") >= 1)
+                {
+                    _repoPedido.CreatePedido(pedidoVM);
+                    return RedirectToAction(nameof(Index));
+                }
+                return View("../Home/Index");
             }
             catch (Exception ex)
             {
@@ -62,11 +92,24 @@ namespace tp03_2021.Controllers
         // GET: PedidoController/Edit/5
         public ActionResult Edit(int id)
         {
-            var pedidoAEditar = _repoPedido.getPedidoById(id);
-            var pedidoVM = _mapper.Map<Pedido, PedidoViewModel>(pedidoAEditar);
-            pedidoVM.Cadetes = _repoCadete.getAll();
-            pedidoVM.Clientes = _repoCliente.getAll();
-            return View(pedidoVM);
+            try
+            {
+                if (HttpContext.Session.GetInt32("Rol") >= 2)
+                {
+                    var pedidoAEditar = _repoPedido.getPedidoById(id);
+                    var pedidoVM = _mapper.Map<Pedido, PedidoViewModel>(pedidoAEditar);
+                    pedidoVM.Cadetes = _repoCadete.getAll();
+                    pedidoVM.Clientes = _repoCliente.getAll();
+                    return View(pedidoVM);
+                }
+                return View("../Home/Index");
+            }
+            catch (Exception ex)
+            {
+                var error = new ErrorViewModel(ex.Message);
+                return View("Error", error);
+            }
+                
         }
 
         // POST: PedidoController/Edit/5
@@ -76,20 +119,39 @@ namespace tp03_2021.Controllers
         {
             try
             {
-                _repoPedido.UpdatePedido(pedidoVM);
+                if (HttpContext.Session.GetInt32("Rol") >= 2)
+                {
+                    _repoPedido.UpdatePedido(pedidoVM);
+                  
+                } 
                 return RedirectToAction(nameof(Index));
+                    
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                var error = new ErrorViewModel(ex.Message);
+                return View("Error", error);
             }
         }
 
         // GET: PedidoController/Delete/5
         public ActionResult Delete(int id)
         {
-            _repoPedido.DeletePedido(id);
-            return RedirectToAction(nameof(Index)); 
+            try
+            {
+                if (HttpContext.Session.GetInt32("Rol") == 3)
+                {
+                    _repoPedido.DeletePedido(id);
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                var error = new ErrorViewModel(ex.Message);
+                return View("Error", error);
+            }
+
         }
 
         
